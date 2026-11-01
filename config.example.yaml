@@ -1,0 +1,108 @@
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  sender: "your_email@gmail.com"
+  password: "YOUR_APP_PASSWORD_HERE"
+  recipient: "your_email@gmail.com"
+
+ollama:
+  model: "llama3.2"
+  base_url: "http://localhost:11434"
+  temperature: 0.3
+
+matching:
+  similarity_threshold: 0.65
+  min_sources_for_triad: 2
+  max_articles_per_source_per_category: 30
+  max_triads_per_category: 5
+
+categories:
+  world_us:
+    name: "World / US News"
+    slug: "world_us"
+    icon: "\U0001F30D"
+    sources:
+      - name: "MSNBC"
+        bias: "left"
+        rss: "https://www.msnbc.com/rss"
+      - name: "Fox News"
+        bias: "right"
+        rss: "https://moxie.foxnews.com/google-publisher/world.xml"
+      - name: "Reuters"
+        bias: "center"
+        rss: "https://news.google.com/rss/search?q=site:reuters.com+world&hl=en-US&gl=US&ceid=US:en"
+
+  india:
+    name: "India News"
+    slug: "india"
+    icon: "\U0001F4CD"
+    sources:
+      - name: "The Hindu"
+        bias: "left"
+        rss: "https://www.thehindu.com/feeder/default.rss"
+      - name: "OpIndia"
+        bias: "right"
+        rss: "https://www.opindia.com/feed/"
+      - name: "Press Trust of India"
+        bias: "center"
+        rss: "https://news.google.com/rss/search?q=site:ptinews.com&hl=en-US&gl=US&ceid=US:en"
+
+  pakistan:
+    name: "Pakistan News"
+    slug: "pakistan"
+    icon: "\U0001F1F5\U0001F1F0"
+    sources:
+      - name: "Geo News"
+        bias: "left"
+        rss: "https://news.google.com/rss/search?q=site:geo.tv&hl=en-US&gl=US&ceid=US:en"
+      - name: "ARY News"
+        bias: "right"
+        rss: "https://arynews.tv/en/feed/"
+      - name: "Dawn"
+        bias: "center"
+        rss: "https://www.dawn.com/feed"
+
+  ai:
+    name: "AI News"
+    slug: "ai"
+    icon: "\U0001F916"
+    sources:
+      - name: "WIRED"
+        bias: "left"
+        rss: "https://www.wired.com/feed/rss"
+      - name: "The Pragmatic Engineer"
+        bias: "right"
+        rss: "https://newsletter.pragmaticengineer.com/feed"
+      - name: "MIT Technology Review"
+        bias: "center"
+        rss: "https://www.technologyreview.com/feed/"
+
+  defense:
+    name: "Defense News"
+    slug: "defense"
+    icon: "\U0001F6E1\uFE0F"
+    sources:
+      - name: "Responsible Statecraft"
+        bias: "left"
+        rss: "https://responsiblestatecraft.org/feed/"
+      - name: "The National Interest"
+        bias: "right"
+        rss: "https://news.google.com/rss/search?q=site:nationalinterest.org&hl=en-US&gl=US&ceid=US:en"
+      - name: "Janes"
+        bias: "center"
+        rss: "https://news.google.com/rss/search?q=site:janes.com&hl=en-US&gl=US&ceid=US:en"
+
+  conflicts_geopolitics:
+    name: "Global Conflicts & Geopolitics"
+    slug: "conflicts_geopolitics"
+    icon: "\u2622\uFE0F"
+    sources:
+      - name: "BBC News"
+        bias: "western"
+        rss: "http://feeds.bbci.co.uk/news/world/rss.xml"
+      - name: "Al Jazeera"
+        bias: "non-western"
+        rss: "https://www.aljazeera.com/xml/rss/all.xml"
+      - name: "Reuters"
+        bias: "center"
+        rss: "https://news.google.com/rss/search?q=site:reuters.com+conflict&hl=en-US&gl=US&ceid=US:en"

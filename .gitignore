@@ -1,0 +1,22 @@
+# Secrets — never commit these
+config.yaml
+
+# Runtime state
+state.json
+logs/
+briefings/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
