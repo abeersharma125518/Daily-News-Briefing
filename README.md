@@ -59,9 +59,21 @@ email:
   smtp_server: "smtp.gmail.com"
   smtp_port: 587
   sender: "you@gmail.com"
-  password: "your-16-char-app-password"   # NOT your normal password
+  password: ""                            # leave empty — use the env var instead
   recipient: "you@gmail.com"
 ```
+
+Then set the password as an environment variable, so no credential ever sits in a file:
+
+```powershell
+# Current session
+$env:NEWS_SMTP_PASSWORD = "your-16-char-app-password"
+
+# Persist for your user account
+[Environment]::SetEnvironmentVariable("NEWS_SMTP_PASSWORD", "your-16-char-app-password", "User")
+```
+
+If you'd rather not use an env var, you can put the password directly in `config.yaml` — it is gitignored, and the environment takes precedence if both are set. You can also rename the variable with `email.password_env`.
 
 > **Getting an app password:** Google requires 2-Step Verification first, then visit <https://myaccount.google.com/apppasswords>. If you paste your regular account password, SMTP auth will fail with an error.
 
@@ -164,6 +176,24 @@ Lower `similarity_threshold` to cluster more aggressively; raise it for stricter
 | `config.example.yaml` | Config template with placeholder credentials |
 | `setup_scheduler.ps1` | Windows Task Scheduler setup |
 | `run_manually.bat` | Manual run helper |
+
+## Security
+
+This project handles an email credential, so a few rules are baked in:
+
+- **`config.yaml` is gitignored.** Commit `config.example.yaml` instead; the real file never enters history.
+- **Passwords resolve from the environment first.** `deliverer.resolve_password()` prefers `NEWS_SMTP_PASSWORD` (or the variable named by `email.password_env`) over anything in `config.yaml`.
+- **`state.json`, `logs/`, `briefings/`, `__pycache__/` are gitignored** — runtime output stays local.
+- **No absolute paths or usernames in tracked files.** Launcher scripts resolve Python at runtime.
+
+Before publishing a fork, verify nothing sensitive slipped in:
+
+```powershell
+git grep -n -i -E "password|secret|api[_-]?key|token"
+git log --all -p -S "your-app-password-here"
+```
+
+If a credential does get committed, rotating it is the only real fix — history rewriting does not un-expose something already public. Revoke the app password, then generate a new one.
 
 ## Notes
 

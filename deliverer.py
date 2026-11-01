@@ -1,20 +1,39 @@
 import logging
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 logger = logging.getLogger(__name__)
 
+# Environment variable checked when no password_env is set in config.yaml.
+DEFAULT_PASSWORD_ENV = "NEWS_SMTP_PASSWORD"
+
+
+def resolve_password(email_config: dict) -> str:
+    """Resolve the SMTP password, preferring the environment over config.
+
+    Set `email.password_env` in config.yaml to name a custom variable, or
+    leave it unset to use NEWS_SMTP_PASSWORD. Keeping the secret in the
+    environment means config.yaml holds no credential at all.
+    """
+    env_name = email_config.get("password_env") or DEFAULT_PASSWORD_ENV
+    from_env = os.environ.get(env_name, "")
+    if from_env:
+        return from_env
+    return email_config.get("password", "")
+
 
 def send_email(html_body: str, email_config: dict) -> bool:
     smtp_server = email_config.get("smtp_server", "smtp.gmail.com")
     smtp_port = email_config.get("smtp_port", 587)
     sender = email_config.get("sender", "")
-    password = email_config.get("password", "")
+    password = resolve_password(email_config)
     recipient = email_config.get("recipient", "")
 
     if not sender or not password:
         logger.warning("Email not configured. Set sender/password in config.yaml")
+        logger.warning("Tip: put the password in an env var instead (NEWS_SMTP_PASSWORD).")
         return False
 
     msg = MIMEMultipart("alternative")

@@ -2,7 +2,10 @@ email:
   smtp_server: "smtp.gmail.com"
   smtp_port: 587
   sender: "your_email@gmail.com"
-  password: "YOUR_APP_PASSWORD_HERE"
+  # Recommended: leave `password` empty and set NEWS_SMTP_PASSWORD in the
+  # environment instead. If both are present, the environment wins.
+  password: ""
+  # password_env: "CUSTOM_VAR_NAME"   # optional; defaults to NEWS_SMTP_PASSWORD
   recipient: "your_email@gmail.com"
 
 ollama:
